@@ -3,7 +3,7 @@
 /* 
  * This class wraps around PHPMailer to send an email using SMTP. You could just use PHPMailer 
  * directly, but if you go with this, you stick to an interface that allows you to swap emailer
- * super easily in future.
+ * super easily in the future.
  */
 
 namespace Programster\Phpmailer;
@@ -13,9 +13,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class PhpMailerEmailer implements EmailerInterface
 {
-    private readonly Contact $replyToContact;
-    
-    
     /**
      * Create an emailer object that wraps around PhpMailer to send an email through SMTP.
      *
@@ -27,14 +24,9 @@ class PhpMailerEmailer implements EmailerInterface
      *
      * @param SecurityProtocol $securityProtocol - should be 'tls' or 'ssl' for how you send emails
      *
-     * @param string $fromEmail - who the email should appear as if its from.
-     *
-     * @param string $fromName - the name that should appears as the email is from.
+     * @param Contact $from - the name/email that the email should appear as if it is from.
      *
      * @param int $smtpPort - the port to connect to the SMTP provider with (defaults to 587)
-     *
-     * @param ?string $replyToEmail - optionally specify where the user should reply to with. If not
-     * provided then this will default to $fromEmail
      *
      * @param ?Contact $replyTo - the name and email of the reply to address. Leave as null for this to default to
      * the from address.
@@ -63,7 +55,7 @@ class PhpMailerEmailer implements EmailerInterface
         ?ContactCollection $to,
         ?ContactCollection $cc = null,
         ?ContactCollection $bcc = null,
-        AttachmentCollection $attachments = null,
+        ?AttachmentCollection $attachments = null,
         EmbeddedImageCollection $images = null
     ) : void
     {
