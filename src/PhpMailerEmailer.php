@@ -56,7 +56,7 @@ class PhpMailerEmailer implements EmailerInterface
         ?ContactCollection $cc = null,
         ?ContactCollection $bcc = null,
         ?AttachmentCollection $attachments = null,
-        EmbeddedImageCollection $images = null
+        ?EmbeddedImageCollection $images = null
     ) : void
     {
         $mailer = new PHPMailer();
