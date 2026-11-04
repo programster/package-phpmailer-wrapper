@@ -6,6 +6,10 @@ If you just want to be able to send basic emails, using a variety of different
 possible drivers, you may be interested in the
 [emailers package](https://github.com/programster/package-emailers) instead.
 
+## Requirements
+* PHP 8.2 or later
+* The `mbstring` PHP extension
+
 ## Install
 One can install the package with [Composer](https://getcomposer.org/) by running:
 
@@ -49,6 +53,6 @@ $mailer->send(
     htmlMessage: "<p>Please find attached my latest invoice.</p>",
     to: new ContactCollection(new Contact("to.email@company.domain", "Client Name")),
     cc: new ContactCollection(new Contact("accounts@company.domain", "Accounts")),
-    attachments: new AttachmentCollection(new Attachment(__DIR__ . '/invoice.pdf', "my-invoice.pdf"));
+    attachments: new AttachmentCollection(new Attachment(__DIR__ . '/invoice.pdf', "my-invoice.pdf")),
 );
 ```

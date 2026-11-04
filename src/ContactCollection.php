@@ -2,8 +2,13 @@
 
 namespace Programster\Phpmailer;
 
+use Ramsey\Collection\AbstractCollection;
 
-final class ContactCollection extends \ArrayObject
+
+/**
+ * @extends AbstractCollection<Contact>
+ */
+final class ContactCollection extends AbstractCollection
 {
     public function __construct(Contact ...$contacts)
     {
@@ -11,28 +16,8 @@ final class ContactCollection extends \ArrayObject
     }
 
 
-    public function append(mixed $value) : void
+    public function getType() : string
     {
-        if ($value instanceof Contact)
-        {
-            parent::append($value);
-        }
-        else
-        {
-            throw new Exception("Cannot append non Contact to a " . __CLASS__);
-        }
-    }
-
-
-    public function offsetSet(mixed $key, mixed $value) : void
-    {
-        if ($value instanceof Contact)
-        {
-            parent::offsetSet($key, $value);
-        }
-        else
-        {
-            throw new Exception("Cannot add a non Contact value to a " . __CLASS__);
-        }
+        return Contact::class;
     }
 }

@@ -1,36 +1,43 @@
 <?php
 
-/* 
- * This is a template settings file. Fill in the details before removing the .tmpl extension and 
+/*
+ * This is a template settings file. Fill in the details before removing the .tmpl extension and
  * running the tests.
  */
+
+use Programster\Phpmailer\Contact;
+use Programster\Phpmailer\ContactCollection;
+use Programster\Phpmailer\SecurityProtocol;
 
 define('SMTP_HOST', '');
 define('SMTP_USER', '');
 define('SMTP_PASSWORD', '');
 
+# Specify the port to connect to the SMTP server on. This is usually 587 for TLS, 465 for SSL, or 1025 for a local
+# testing tool such as MailHog.
+define('SMTP_PORT', 587);
+
+# Specify the security protocol to use. This should really be SecurityProtocol::TLS, but you can use
+# SecurityProtocol::NONE for a local testing tool such as MailHog.
+define('SMTP_SECURITY_PROTOCOL', SecurityProtocol::TLS);
+
 # Specify who the email address should be from.
-define('SMTP_FROM', new \Programster\Phpmailer\Contact("my-email@gmail.com", "My Name"));
+define('SMTP_FROM', new Contact("my-email@gmail.com", "My Name"));
 
 # Specify what the reply-to address should be.
-define('SMTP_REPLY_TO', new \Programster\Phpmailer\Contact("my-email@gmail.com", "noreply"));
-
-# Specifyin if using SSL or TLS. This should really be TLS.
-define('SMTP_TLS_OR_SSL', 'tls');
+define('SMTP_REPLY_TO', new Contact("my-email@gmail.com", "noreply"));
 
 # Specify the contacts that test emails should be addressed to.
-define('EMAIL_TO', new \Programster\Phpmailer\ContactCollection(
-    new \Programster\Phpmailer\Contact("my.email@gmail.com", "My Name"),
+define('EMAIL_TO', new ContactCollection(
+    new Contact("my.email@gmail.com", "My Name"),
 ));
 
 # Specify the contacts that test should be cc'd to
-define('EMAIL_CC', new \Programster\Phpmailer\ContactCollection(
+define('EMAIL_CC', new ContactCollection(
 
 ));
 
 # Specify the contacts that test should be bcc'd to
-define('EMAIL_BCC', new \Programster\Phpmailer\ContactCollection(
+define('EMAIL_BCC', new ContactCollection(
 
 ));
-
-

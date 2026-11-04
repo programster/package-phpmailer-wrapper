@@ -3,22 +3,24 @@
 namespace Programster\Phpmailer;
 
 
-class EmbeddedImage
+readonly class EmbeddedImage
 {
-    public readonly string $cid;
+    private string $m_filepath;
+    private string $m_cid;
 
 
     /**
-     * Create an attachment for an email
-     * @param string $filepath - the path to the file to add as an attachment
-     * @param ?string $cid - optionally specify a the cid for the attachment. This is how the file is referenced to
-     * within the content of the body of the email If set left as null, the name of the file.
+     * Create an image to embed within an email.
+     * @param string $filepath - the path to the image file to embed.
+     * @param ?string $cid - optionally specify the cid for the image. This is how the image is referenced within
+     * the content of the body of the email (e.g. <img src="cid:my-image">). If left as null, the name of the file
+     * will be used.
      * @throws ExceptionFileDoesNotExist - if there is no file at $filepath
-     * @throws ExceptionFileIsNotReadable - if the file at $filepath cannot be read to add as an attachment.
+     * @throws ExceptionFileIsNotReadable - if the file at $filepath cannot be read to embed in the email.
      */
     public function __construct(
-        public readonly string $filepath,
-        string $cid = null
+        string $filepath,
+        ?string $cid = null
     )
     {
         if (file_exists($filepath) === false)
@@ -31,6 +33,19 @@ class EmbeddedImage
             throw new ExceptionFileIsNotReadable($filepath);
         }
 
-        $this->cid = $cid ?? (string) pathinfo($filepath, PATHINFO_BASENAME);
+        $this->m_filepath = $filepath;
+        $this->m_cid = $cid ?? (string) pathinfo($filepath, PATHINFO_BASENAME);
+    }
+
+
+    public function getFilepath() : string
+    {
+        return $this->m_filepath;
+    }
+
+
+    public function getCid() : string
+    {
+        return $this->m_cid;
     }
 }

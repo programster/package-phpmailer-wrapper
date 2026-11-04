@@ -2,8 +2,13 @@
 
 namespace Programster\Phpmailer;
 
+use Ramsey\Collection\AbstractCollection;
 
-final class EmbeddedImageCollection extends \ArrayObject
+
+/**
+ * @extends AbstractCollection<EmbeddedImage>
+ */
+final class EmbeddedImageCollection extends AbstractCollection
 {
     public function __construct(EmbeddedImage ...$images)
     {
@@ -11,28 +16,8 @@ final class EmbeddedImageCollection extends \ArrayObject
     }
 
 
-    public function append(mixed $value) : void
+    public function getType() : string
     {
-        if ($value instanceof EmbeddedImage)
-        {
-            parent::append($value);
-        }
-        else
-        {
-            throw new Exception("Cannot append non EmbeddedImage to a " . __CLASS__);
-        }
-    }
-
-
-    public function offsetSet(mixed $key, mixed $value) : void
-    {
-        if ($value instanceof EmbeddedImage)
-        {
-            parent::offsetSet($key, $value);
-        }
-        else
-        {
-            throw new Exception("Cannot add a non EmbeddedImage value to a " . __CLASS__);
-        }
+        return EmbeddedImage::class;
     }
 }

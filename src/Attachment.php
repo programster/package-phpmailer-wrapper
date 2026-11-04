@@ -2,9 +2,12 @@
 
 namespace Programster\Phpmailer;
 
-class Attachment
+readonly class Attachment
 {
-    public readonly string $name;
+    private string $m_filepath;
+    private string $m_name;
+    private AttachmentEncoding $m_encoding;
+    private string $m_mimetype;
 
 
     /**
@@ -19,10 +22,10 @@ class Attachment
      * @throws ExceptionFileIsNotReadable - if the file at $filepath cannot be read to add as an attachment.
      */
     public function __construct(
-        public readonly string $filepath,
+        string $filepath,
         ?string $name = null,
-        public readonly AttachmentEncoding $encoding = AttachmentEncoding::BASE_64,
-        public readonly ?string $mimetype = null
+        AttachmentEncoding $encoding = AttachmentEncoding::BASE_64,
+        ?string $mimetype = null
     )
     {
         if (file_exists($filepath) === false)
@@ -35,6 +38,38 @@ class Attachment
             throw new ExceptionFileIsNotReadable($filepath);
         }
 
-        $this->name = $name ?? (string) pathinfo($filepath, PATHINFO_BASENAME);
+        $this->m_filepath = $filepath;
+        $this->m_name = $name ?? (string) pathinfo($filepath, PATHINFO_BASENAME);
+        $this->m_encoding = $encoding;
+        $this->m_mimetype = $mimetype ?? '';
+    }
+
+
+    public function getFilepath() : string
+    {
+        return $this->m_filepath;
+    }
+
+
+    public function getName() : string
+    {
+        return $this->m_name;
+    }
+
+
+    public function getEncoding() : AttachmentEncoding
+    {
+        return $this->m_encoding;
+    }
+
+
+    /**
+     * Get the mimetype of the attachment.
+     * @return string - the mimetype, or an empty string if it was not specified and should be automatically
+     * determined.
+     */
+    public function getMimetype() : string
+    {
+        return $this->m_mimetype;
     }
 }
