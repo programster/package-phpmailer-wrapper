@@ -1,6 +1,6 @@
 # Upgrading
 
-- [Unreleased](#unreleased)
+- [From 2.1.0 to 2.1.1](#from-210-to-211)
 - [From 2.0.0 to 2.1.0](#from-200-to-210)
 - [From 1.2.3 to 2.0.0](#from-123-to-200)
     - [Changes you need to make](#changes-you-need-to-make)
@@ -13,7 +13,7 @@
 
 What changed in each release, newest first, and what, if anything, you need to change in your code when upgrading.
 
-## Unreleased
+## From 2.1.0 to 2.1.1
 Nothing needs to change in your code, unless it attaches or embeds a directory.
 
 - **A directory is rejected as an attachment or embedded image.** `new Attachment()` and `new EmbeddedImage()` throw
