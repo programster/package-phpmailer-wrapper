@@ -80,7 +80,8 @@ readonly class PhpMailerEmailer
      * by their cid (e.g. <img src="cid:my-image">).
      * @return void
      * @throws ExceptionFailedToSendEmail - if there are no recipients, or failed to send the email for whatever
-     * reason.
+     * reason. When the SMTP server refused it, the exception has the server's reply code, and isPermanentFailure()
+     * says whether sending it again could work.
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(
@@ -95,6 +96,10 @@ readonly class PhpMailerEmailer
     ) : void
     {
         $mailer = new PHPMailer();
+
+        // Keeps the server's reply to whatever it refuses, which PHPMailer itself clears before send() returns.
+        $smtp = new ReplyRecordingSmtp();
+        $mailer->setSMTPInstance($smtp);
         $mailer->CharSet = $this->m_charset;
         $mailer->isSMTP();
         $mailer->Host = $this->m_smtpHost;
@@ -195,8 +200,14 @@ readonly class PhpMailerEmailer
         
         if ($mailer->send() === false)
         {
-            throw new ExceptionFailedToSendEmail("Failed to send email: " . $mailer->ErrorInfo);
-        } 
+            // The server's reply to what it refused says whether that's permanent (5xx) or for now (4xx). There's
+            // none if the server couldn't be reached.
+            throw new ExceptionFailedToSendEmail(
+                "Failed to send email: " . $mailer->ErrorInfo,
+                $smtp->getLastRefusalCode(),
+                $smtp->getLastRefusalExtendedCode()
+            );
+        }
     }
 }
 
