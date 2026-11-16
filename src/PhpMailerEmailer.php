@@ -68,20 +68,31 @@ readonly class PhpMailerEmailer
 
     /**
      * Send an email.
+     *
      * @param string $subject - subject of the email
+     *
      * @param string $plaintextMessage - the plaintext body of the email. If an HTML message is also provided, this
      * is used as the alternative body for recipients that cannot view HTML emails.
+     *
      * @param ?string $htmlMessage - the HTML body of the email, or null to send a plaintext-only email.
+     *
      * @param ?ContactCollection $to - the contacts to send the email to.
+     *
      * @param ?ContactCollection $cc - the contacts to CC the email to.
+     *
      * @param ?ContactCollection $bcc - the contacts to BCC the email to.
+     *
      * @param ?AttachmentCollection $attachments - files to attach to the email.
+     *
      * @param ?EmbeddedImageCollection $images - images to embed in the email, which the HTML message can reference
      * by their cid (e.g. <img src="cid:my-image">).
+     *
      * @return void
+     *
      * @throws ExceptionFailedToSendEmail - if there are no recipients, or failed to send the email for whatever
      * reason. When the SMTP server refused it, the exception has the server's reply code, and isPermanentFailure()
      * says whether sending it again could work.
+     *
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public function send(
@@ -124,7 +135,7 @@ readonly class PhpMailerEmailer
 
         if ($htmlMessage !== null)
         {
-            $mailer->Body    = $htmlMessage;
+            $mailer->Body = $htmlMessage;
             $mailer->AltBody = strip_tags($plaintextMessage);
             $mailer->isHTML(true);
         }
@@ -142,7 +153,6 @@ readonly class PhpMailerEmailer
 
             foreach ($to as $toContact)
             {
-                /* @var $toContact Contact */
                 $mailer->addAddress($toContact->getEmail(), $toContact->getName());
             }
         }
@@ -153,7 +163,6 @@ readonly class PhpMailerEmailer
 
             foreach ($cc as $ccContact)
             {
-                /* @var $ccContact Contact */
                 $mailer->addCC($ccContact->getEmail(), $ccContact->getName());
             }
         }
@@ -164,17 +173,14 @@ readonly class PhpMailerEmailer
 
             foreach ($bcc as $bccContact)
             {
-                /* @var $bccContact Contact */
                 $mailer->addBCC($bccContact->getEmail(), $bccContact->getName());
             }
         }
-
 
         if ($attachments !== null && count($attachments) > 0)
         {
             foreach ($attachments as $attachment)
             {
-                /* @var $attachment Attachment */
                 $mailer->addAttachment(
                     $attachment->getFilepath(),
                     $attachment->getName(),
@@ -188,16 +194,15 @@ readonly class PhpMailerEmailer
         {
             foreach ($images as $image)
             {
-                /* @var $image EmbeddedImage */
                 $mailer->addEmbeddedImage($image->getFilepath(), $image->getCid());
             }
         }
 
-        if ($hasRecipients === FALSE)
+        if ($hasRecipients === false)
         {
             throw new ExceptionFailedToSendEmail("Cannot send email when there are no configured recipients.");
         }
-        
+
         if ($mailer->send() === false)
         {
             // The server's reply to what it refused says whether that's permanent (5xx) or for now (4xx). There's
@@ -210,4 +215,3 @@ readonly class PhpMailerEmailer
         }
     }
 }
-

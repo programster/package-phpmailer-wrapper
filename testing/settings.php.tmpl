@@ -1,0 +1,39 @@
+<?php
+
+/*
+ * The settings for the opt-in live test (testing/live-test.php), which sends real emails through a real SMTP server.
+ * Copy this file to testing/settings.php (which is git-ignored, so your password is never committed), and fill it in.
+ * See docs/testing.md.
+ */
+
+use Programster\Phpmailer\Contact;
+use Programster\Phpmailer\ContactCollection;
+use Programster\Phpmailer\SecurityProtocol;
+use Programster\Phpmailer\Testing\LiveTestSettings;
+
+return new LiveTestSettings(
+    smtpHost: '',
+    smtpUser: '',
+    smtpPassword: '',
+
+    # Usually SecurityProtocol::TLS, or SecurityProtocol::NONE for a local testing tool such as MailHog.
+    securityProtocol: SecurityProtocol::TLS,
+
+    # Usually 587 for TLS, 465 for SSL, or 1025 for a local testing tool such as MailHog.
+    smtpPort: 587,
+
+    from: new Contact("my-email@example.com", "My Name"),
+    replyTo: new Contact("my-email@example.com", "noreply"),
+
+    # Who the test emails are sent to: only your own mailboxes, as you'll need to check that they arrive.
+    to: new ContactCollection(
+        new Contact("my-email@example.com", "My Name"),
+    ),
+    cc: new ContactCollection(),
+    bcc: new ContactCollection(),
+
+    # Set this to true to confirm that the SMTP account above is one for testing (e.g. a mailbox of your own, or a
+    # sandbox such as Mailtrap), and not one a live site sends its emails through, and that every recipient above is
+    # a mailbox of your own. The test refuses to run until it is.
+    isTestAccount: false,
+);

@@ -1,0 +1,24 @@
+# PHPStan settings. Run with: vendor/bin/phpstan
+parameters:
+    level: 10
+    phpVersion:
+        min: 80200
+        max: 80599
+    paths:
+        - src
+        - testing
+    excludePaths:
+        # The settings for the opt-in live test, which are git-ignored, so only exist on the machines that run it.
+        # The (?) means it's fine for them not to exist. Settings.php is the old name for them.
+        - testing/settings.php (?)
+        - testing/Settings.php (?)
+    ignoreErrors:
+        # These tests deliberately put the wrong type in a collection, to check that it's rejected when the code runs.
+        -
+            identifier: argument.type
+            path: testing/tests/CollectionsTest.php
+            count: 2
+        -
+            identifier: offsetAssign.valueType
+            path: testing/tests/CollectionsTest.php
+            count: 1

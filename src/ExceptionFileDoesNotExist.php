@@ -2,7 +2,8 @@
 
 /*
  * A custom exception to raise if a file, such as an attachment or embedded image, does not exist.
- * Using a custom exception, allows the developer to gracefully handle different erroneous situations at a higher level.
+ * Using a custom exception allows the developer to gracefully handle different erroneous situations at a higher
+ * level.
  */
 
 namespace Programster\Phpmailer;
@@ -19,8 +20,6 @@ class ExceptionFileDoesNotExist extends \Exception
     }
 
 
-    public function getFilepath() : string
-    {
-        return $this->m_filepath;
-    }
+    # Accessors
+    public function getFilepath() : string { return $this->m_filepath; }
 }

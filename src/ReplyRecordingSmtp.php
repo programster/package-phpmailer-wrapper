@@ -21,13 +21,9 @@ final class ReplyRecordingSmtp extends SMTP
 
     /**
      * Send a command, as PHPMailer's SMTP client does, keeping the reply if the server refuses it.
-     *
      * @param string $command - the command's name, for errors.
-     *
      * @param string $commandstring - the command to send.
-     *
      * @param int|array<int> $expect - the reply code(s) that mean it worked.
-     *
      * @return bool - whether it worked.
      */
     protected function sendCommand($command, $commandstring, $expect)
@@ -37,8 +33,10 @@ final class ReplyRecordingSmtp extends SMTP
         if ($worked === false)
         {
             $error = $this->getError();
-            $code = trim((string) ($error['smtp_code'] ?? ""));
-            $extendedCode = trim((string) ($error['smtp_code_ex'] ?? ""));
+            $rawCode = $error['smtp_code'] ?? "";
+            $rawExtendedCode = $error['smtp_code_ex'] ?? "";
+            $code = is_scalar($rawCode) ? trim((string) $rawCode) : "";
+            $extendedCode = is_scalar($rawExtendedCode) ? trim((string) $rawExtendedCode) : "";
 
             // A command that never reached the server (e.g. it isn't connected) has no reply, so is left out.
             if (preg_match('/^[0-9]{3}$/', $code) === 1)

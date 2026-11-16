@@ -1,1 +1,3 @@
+settings.php
+# The live test's settings were in Settings.php before, so it stays ignored, as it may still hold a password.
 Settings.php

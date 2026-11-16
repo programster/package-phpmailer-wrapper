@@ -42,6 +42,7 @@ class ExceptionFailedToSendEmail extends \Exception
     /**
      * Find out whether the SMTP server refused the email permanently (a 5xx reply), so sending it again won't work.
      * A temporary refusal (4xx), or no reply at all (e.g. the server couldn't be reached), isn't permanent.
+     *
      * @return bool
      */
     public function isPermanentFailure() : bool

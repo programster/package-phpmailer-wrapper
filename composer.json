@@ -2,8 +2,8 @@
     "name": "programster/phpmailer-wrapper",
     "type": "library",
     "description": "A wrapper around PHPMailer to make it easier to use.",
-    "keywords": ["email", "phpmailer"],
-    "homepage": "https://github.com/programster/package-emailers",
+    "keywords": ["email", "phpmailer", "smtp", "mail", "attachments"],
+    "homepage": "https://github.com/programster/package-phpmailer-wrapper",
     "license": "MIT",
     "authors": [
         {
@@ -14,19 +14,27 @@
         }
     ],
     "require": {
-        "php": ">= 8.2.0",
+        "php": "^8.2",
         "ext-mbstring": "*",
         "phpmailer/phpmailer": "^6.6",
         "ramsey/collection": "^2.0"
     },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    },
     "autoload": {
         "psr-4": {
-            "Programster\\Phpmailer\\": "src"
+            "Programster\\Phpmailer\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Programster\\Phpmailer\\Testing\\": "testing"
+            "Programster\\Phpmailer\\Testing\\": "testing/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
         }
     }
 }

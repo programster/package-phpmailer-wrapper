@@ -1,0 +1,3 @@
+Notes for the attachment test.
+Café = 1, naïve = 2.
+A line with an equals sign: a=b
